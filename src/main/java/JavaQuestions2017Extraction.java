@@ -73,9 +73,9 @@ public class JavaQuestions2017Extraction {
             // update end position for categories
             updateEndPositionAndContent(categories,null, content, false);
             // extract questions
-            int currentPosition = extractQuestionsPosition(content, questions, 0, 503);
+            int currentPosition = extractQuestionsPosition(content, questions, 0, 503,true);
             // number question restart in book ...
-            extractQuestionsPosition(content, questions, currentPosition, 497);
+            extractQuestionsPosition(content, questions, currentPosition, 497,false);
             //update last position  for question
             updateEndPositionAndContent(questions, categories, content, true);
         } catch (IOException e) {
@@ -113,11 +113,15 @@ public class JavaQuestions2017Extraction {
         return categories;
     }
 
-    private int extractQuestionsPosition(String content, List<Chunk> questions, int currentPosition, int nb) {
+    private int extractQuestionsPosition(String content, List<Chunk> questions, int currentPosition, int nb,boolean jump) {
         int startPosition = currentPosition;
         int max = questions.size();
         for (int j = 1; j <= nb; j++) {
             int pos = content.indexOf(String.valueOf(j) + ".", startPosition);
+            if(jump && j == 4){
+                //quick fix double 4.
+                 pos = content.indexOf(String.valueOf(j) + ".", pos+1);
+            }
             if (pos >= 0) {
                 Chunk chunk = new Chunk();
                 chunk.setNumber(max + j);
@@ -172,6 +176,10 @@ public class JavaQuestions2017Extraction {
                  }
             }
             log(question);
+        }else{
+            System.err.print("? not found !! ");
+            System.err.print(content);
+
         }
     }
 
