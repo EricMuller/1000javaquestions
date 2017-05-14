@@ -131,13 +131,15 @@ public class JavaQuestions2017Extraction {
             }
             if (pos >= 0) {
                 Chunk chunk = new Chunk();
+                System.out.println(String.valueOf(max + j) );
+                System.out.println(String.valueOf(j) );
                 chunk.setNumber(max + j);
                 chunk.setLibelle("Question " + String.valueOf(max + j));
                 chunk.setStart(pos);
                 questions.add(chunk);
                 startPosition = pos+1;
             } else {
-                System.err.println(String.valueOf(j) + ". not found!!!");
+                System.out.println(String.valueOf(j) + ". not found!!!");
             }
         }
         return startPosition;
@@ -170,6 +172,11 @@ public class JavaQuestions2017Extraction {
     private void updateQuestionContent(Chunk question, List<Chunk> categories, String document){
         String content = document.substring(question.getStart(), question.getEnd());
         int posInt = content.indexOf("?");
+        if(question.getNumber() == 677){
+            posInt = content.indexOf(")");
+            posInt= posInt + 1;
+        }
+
         if (posInt > 0) {
             int pos = content.indexOf(".");
             String q = content.substring(pos + 1, posInt + 1).trim().replace("\n", " ");
@@ -184,8 +191,8 @@ public class JavaQuestions2017Extraction {
             }
             log(question);
         }else{
-            System.err.print("? not found !! ");
-            System.err.print(content);
+            System.out.print("? not found !! ");
+            System.out.print(content);
 
         }
     }
