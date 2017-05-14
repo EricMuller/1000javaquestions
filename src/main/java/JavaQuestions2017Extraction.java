@@ -23,7 +23,8 @@ import java.util.*;
  */
 public class JavaQuestions2017Extraction {
 
-    private String titles[] = {"Java Basics",
+    private String titles[] = {
+            "Java Basics",
             "OOPS",
             "Inheritance",
             "Static",
@@ -48,8 +49,10 @@ public class JavaQuestions2017Extraction {
             "Java Design Patterns",
             "Spring",
             "Hibernate",
-            "Maven"};
-
+            "Maven",
+            "GIT",
+            "AWS",
+            "Microservices"};
 
     public JavaQuestions2017Extraction() {
     }
@@ -103,6 +106,10 @@ public class JavaQuestions2017Extraction {
         List<Chunk> categories = Lists.newArrayList();
         for (String title : titles) {
             int pos = content.indexOf(title + "\n");
+            if(title.equals("Hibernate")){
+                pos = content.indexOf(title + "\n",pos+1);
+            }
+
             if (pos >= 0) {
                 Chunk chunk = new Chunk();
                 chunk.setLibelle(title);
@@ -128,7 +135,7 @@ public class JavaQuestions2017Extraction {
                 chunk.setLibelle("Question " + String.valueOf(max + j));
                 chunk.setStart(pos);
                 questions.add(chunk);
-                startPosition = pos;
+                startPosition = pos+1;
             } else {
                 System.err.println(String.valueOf(j) + ". not found!!!");
             }
@@ -186,6 +193,7 @@ public class JavaQuestions2017Extraction {
     private void log(Chunk chunk) {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("---------------------------------------").append("\n");
+        stringBuffer.append(String.valueOf(chunk.getNumber())).append("\n");
         stringBuffer.append(chunk.getCategorie()).append("\n");
         stringBuffer.append(chunk.getLibelle()).append("\n");
         stringBuffer.append("---------------------------------------").append("\n");
